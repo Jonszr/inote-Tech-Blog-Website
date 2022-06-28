@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {MenuIcon, XIcon} from '@heroicons/react/outline'
+import { NavLink } from 'react-router-dom';
 export default function Navbar() {
     //small screen nav bar click to show menu
     const [nav, setNav] = useState(false);
@@ -11,8 +12,12 @@ export default function Navbar() {
                 <h1 className='text-3xl text-white font-bold mr-4 sm:text-4xl'>INOTE.</h1>
                 <ul className='hidden md:flex text-zinc-400'>
                     <li>
-                        Home
+                        {/* <NavLink to={'/home'}>
+                            Home
+                        </NavLink> */}
+                        
                     </li>
+                    
                     <li>My blogs</li>
                     
                     

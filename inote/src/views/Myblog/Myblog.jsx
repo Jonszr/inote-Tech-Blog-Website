@@ -19,7 +19,7 @@ export default function Myblog() {
                         <BlogContent/>
                         {/* <PostLists/> */}
                         
-                        <div className='w-[100%] lg:w-[30%]'>
+                        <div className='w-[100%] lg:w-[30%] mb-20'>
 
                             {/* side bar */}
                             <ProfileCard/>
