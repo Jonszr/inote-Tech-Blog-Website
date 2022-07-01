@@ -2,26 +2,19 @@
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer'
 import Loginpage from "./views/LoginPage/Loginpage";
-import { BrowserRouter, Navigate, Routes,Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, useRoutes } from "react-router-dom";
 import Home from "./views/Home/Home";
 import Myblog from "./views/Myblog/Myblog";
-
+import routes from "./routes";
+import getUser from "./database/User"
 function App() {
+  
+  const mainRoutes = useRoutes(routes);
   return (
     < >
-      <Navbar/>
-      <BrowserRouter>
-        <Routes>
-          <Route index path="/home"  element={<Home/>}></Route>
-          <Route  path="/login"  element={<Loginpage/>}></Route>
-          <Route path="/myblog" element={<Myblog/>}></Route>
-          <Route path="*"  element={<Home/>}></Route>
-        </Routes>
-      </BrowserRouter>
-      
-      {/* <Hero/>
-      <PublicPosts/> */}
-      <Footer/>
+      <Navbar />
+      {mainRoutes}
+      <Footer />
     </>
   );
 }

@@ -1,9 +1,10 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import PostCard from './PostCard'
 
-export default function PublicPosts() {
+export default function PostLists() {
   return (
-    <div className=' w-[100%]  lg:w-[70%] '>
+    <div className=' w-full  lg:w-[70%] '>
         {/* Search Bar */}
 
         <div className=" flex flex-wrap items-end justify-evenly   rounded-3xl border shadow-md shadow-zinc-400 p-5 mt-10 mb-10 bg-white">
@@ -28,7 +29,10 @@ export default function PublicPosts() {
         </div>
         {/* lists of post cards */}
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            
             <PostCard/>
             <PostCard/>
             <PostCard/>
