@@ -4,10 +4,10 @@ import PostCard from './PostCard'
 
 export default function PostLists() {
   return (
-    <div className=' w-full  lg:w-[70%] '>
+    <div className=' w-full h-auto'>
         {/* Search Bar */}
 
-        <div className=" flex flex-wrap items-end justify-evenly   rounded-3xl border shadow-md shadow-zinc-400 p-5 mt-10 mb-10 bg-white">
+        <div className=" w-full flex flex-wrap items-end justify-evenly   rounded-3xl border shadow-md shadow-zinc-400 p-5 mt-10 mb-10 bg-white">
             <div className="title">
                 <p className="text-4xl font-bold text-gray-800 mb-4">
                     Lastest articles
@@ -33,19 +33,39 @@ export default function PostLists() {
             <PostCard/>
             </NavLink>
             
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
-
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
+            </NavLink>
+            <NavLink to={'/myblog/blogdetail'}>
             <PostCard/>
-            <PostCard/>
+            </NavLink>
             
         </div>
 

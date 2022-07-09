@@ -1,17 +1,18 @@
 import { Navigate } from "react-router-dom";
 import Forgetpwd from "./components/Forgetpwd";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import Signin from "./components/LoginPage/Signin";
+import Signup from "./components/LoginPage/Signup";
 import Home from "./views/Home/Home";
 import Loginpage from "./views/LoginPage/Loginpage";
 import Myblog from "./views/Myblog/Myblog";
 import PostLists from './components/PostLists'
-import EditPorfile from "./components/EditPorfile";
-import BlogContent from "./components/BlogContent";
-import BlogEditor from "./components/BlogEditor";
+import EditPorfile from "./components/MyblogPage/EditPorfile";
+import BlogContent from "./components/MyblogPage/BlogContent";
+import BlogEditor from "./components/MyblogPage/BlogEditor";
 
 export default [
     {
+        
         path: '/home',
         element: <Home/>
     },
@@ -20,7 +21,7 @@ export default [
         element: <Myblog/>,
         children:[
             {
-                path:'searchblogs',
+                path:'allblogs',
                 element:<PostLists/>
             },
             {
@@ -37,7 +38,7 @@ export default [
             },
             {
                 path:'',
-                element:<PostLists/>
+                element:<Navigate to={'allblogs'}/>
             }
         ]
     },
@@ -65,6 +66,10 @@ export default [
     },
     {
         path:'/',
+        element:<Navigate to={'/home'}/>
+    },
+    {
+        path:'*',
         element:<Navigate to={'/home'}/>
     }
 ]

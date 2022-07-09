@@ -4,7 +4,7 @@ import imgCard from  '../assets/imgcard.jpg';
 export default function PostCard() {
   return (
     
-              <div className="overflow-hidden shadow-lg rounded-lg h-90 w-60 md:w-auto cursor-pointer m-auto">
+              <div className="w-full overflow-hidden shadow-lg rounded-lg h-90  md:w-auto cursor-pointer m-auto">
                   <a href="#" className="w-full block h-full">
                       <img alt="blog photo" src={imgCard} className="max-h-40 w-full object-cover"/>
                       <div className="bg-white dark:bg-gray-800 w-full p-4">

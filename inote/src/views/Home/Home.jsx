@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
         <Hero/>
-        <div className='flex justify-center py-32'>
+        <div className='flex justify-center mx-32 py-32'>
           <PostLists/>
         </div>
         

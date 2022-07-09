@@ -21,6 +21,7 @@ mongoose.connection.on ("error",err => {
 // const myOwnMiddleware = (req,res,next) => {console.log("middleware applied!");
 // next();};
 //middleware;
+app.use(express.static('public'))
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());

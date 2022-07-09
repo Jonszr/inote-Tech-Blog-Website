@@ -1,10 +1,10 @@
 import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
-import Signin from '../../components/Signin'
-import Signup from '../../components/Signup'
+import { Link, Outlet, useLocation, useMatch, useParams } from 'react-router-dom'
+import Signin from '../../components/LoginPage/Signin'
+import Signup from '../../components/LoginPage/Signup'
 
-export default function Loginpage() {
-  
+export default function Loginpage(props) {
+    
   return (
     <div className='w-full h-screen overflow-y-scroll  '>
         

@@ -3,6 +3,7 @@ require('dotenv').config()
 const expressJwt = require('express-jwt');
 const User = require('../models/user');
 const { sendEmail } = require('../tools/mailService');
+const fs = require('fs');
 
 
 
@@ -12,8 +13,9 @@ exports.signup = async (req, res) =>{
         error: "Email is taken!"
     })
     const user = await new User(req.body)
-
     await user.save()
+
+    // Email service
     const { email } = req.body;
     const emailData = {
         from: 'noreply@postWeb.com',
@@ -23,13 +25,17 @@ exports.signup = async (req, res) =>{
             html: 'nothing..'
     }
     sendEmail(emailData);
+
     res.status(200).json({message:"Signup success! Please login."});
 }
 
 exports.signin =(req,res) => {
+    
     //find the user based on email
     const{email,password} = req.body
+    console.log(req.body)
     User.findOne({email},(err,user)=>{
+        
         //if err or no user
         if(err || !user){
             return res.status(401).json({
@@ -45,16 +51,23 @@ exports.signin =(req,res) => {
         }
         user.hashed_password = undefined;
         user.salt = undefined;
+        console.log(user)
+        
     //generate a token with user id and secret
-        const token = jwt.sign({user},process.env.JWT_SECRET);
+        jwt.sign({user},process.env.JWT_SECRET,{expiresIn:'24h'},(err,data)=>{
+            if(err){
+                return res.status(404).json(err)
+            }
+            return res.json({token:data,user,exp:Date.now()+1000*60*60*24})
+        });
     //persist the token as 't' in cookie with expiry date
-        res.cookie("token",token,{maxAge:24*60*60*1000});
+        // res.cookie("token",token,{maxAge:24*60*60*1000});
         
         
 
     //return response with user and token to frontend client
-        const {_id,name,email,role} = user
-        return res.json({token, user: { _id,email, name, role}});
+        
+        // return res.json({token, user});
     });
 
 
@@ -62,8 +75,8 @@ exports.signin =(req,res) => {
 };
 
 exports.signout = (req,res) => {
-    res.clearCookie("t")
-    
+    res.clearCookie("token")
+    console.log(res.headers['authorization'])
     return res.json({message: "Signout success!"})
 }
 
@@ -77,23 +90,42 @@ exports.requireSignin = expressJwt({
 
 exports.getUserByToken = (req,res) => {
    
-    
-    
-    // const authHeader = req.header('authorization').split(' ')[1]
-    
-    const token = req.cookies.token;
+    console.log('yes..here');
+    try {
+        const token = req.headers.cookies;
+        console.log(req.headers.cookies)
     if(!token){
-        res.Status(401).json({
+        res.status(401).json({
             message:'token not found'
         })
     }
     jwt.verify(token,process.env.JWT_SECRET,(err,data)=>{
         if(err) return res.status(403)
         
-        res.json({data})
+        return res.json({data})
     })
     
-    return res.json({
-        message: 'nihao',
-    })
+    
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+            error
+        })
+    }
+    
+    // const authHeader = req.header('authorization').split(' ')[1]
+    
+    
 }
+
+// exports.isUser = (req,res,next)=>{
+//     let sameUser = req.auth&& req.profile&&req.profile._id === req.auth.user._id;
+//     console.log(req.profile._id, req.auth.user._id)
+//     console.log(sameUser)
+//     if(!sameUser){
+//         return res.status(400).json({
+//             error: "User is not authorized"
+//         })
+//     }
+//     next();
+// }
