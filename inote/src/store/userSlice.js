@@ -36,6 +36,7 @@ const userSlice = createSlice(
                 localStorage.setItem('currUser',state.currUser);
                 localStorage.setItem('token',state.token)
                 localStorage.setItem('expirationTime', state.expirationTime)
+                console.log('login successfully')
                 
             },
             logout(state,action){
@@ -43,6 +44,13 @@ const userSlice = createSlice(
                 state.expirationTime = 0;
                 state.currUser = null;
                 state.token = null;
+
+
+                localStorage.removeItem('currUser',state.currUser);
+                localStorage.removeItem('token',state.token);
+                localStorage.removeItem('expirationTime', state.expirationTime);
+
+                console.log('logout successfully')
             },
             setUser(state,action){
                state.currUser = action.payload;

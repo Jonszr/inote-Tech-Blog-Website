@@ -53,16 +53,26 @@ exports.updateUser = (req, res, next) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
     form.parse(req, (err, fields, files) => {
+       
+
+        
         if (err) {
             return res.status(400).json({
                 error: "Image could not be uploaded",
             });
         }
         let user = req.profile;
-        if (files.photo) {
-            user.photo.data = fs.readFileSync(files.photo.path);
-            user.photo.contentType = files.photo.type;
+        try {
+           
+            if (files.photo) {
+                user.photo.data = fs.readFileSync(files.photo.filepath);
+                user.photo.contentType = files.photo.mimetype;
+            }
+            
+        } catch (error) {
+           console.log(error) 
         }
+        
         user = _.extend(user, fields);
         user.updated = Date.now();
         user.save((err) => {

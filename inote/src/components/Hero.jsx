@@ -19,7 +19,7 @@ export default function Hero() {
             </div>
             
             <div className='flex justify-center'>
-                <img className='w-[50%]   ' src={bgImg} alt="/" />
+                <img className=' object-cover' src={bgImg} alt="/" />
             </div>
             <div className='absolute flex flex-col py-8 md:min-w-[760px] bottom-[-12%]
             mx-1 md:left-[66%] md:bottom-[-12%]    transform md:-translate-x-1/2 bg-zinc-200
