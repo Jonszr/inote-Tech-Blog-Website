@@ -10,17 +10,15 @@ const userApi = createApi({
 
         prepareHeaders: (headers, { getState }) => {
 
-
-
-
+           const token =  getState().user.token
+            
+            headers.set('Authorization',`Bearer ${token}`)
+            headers.set('Accpet','*/*')
             return headers
         }
     }),
-    tagTypes: ['user'],
+    tagTypes: ['user','posts','userphoto'],
     endpoints(build) {
-
-
-
         return {
             //login post请求
             login: build.mutation({
@@ -57,22 +55,87 @@ const userApi = createApi({
             //updateUser post
             updateUser: build.mutation({
                 query({ userId,user }) {
-                    // var urlencoded = new URLSearchParams();
-                    // urlencoded.append("about", "I like coding so much");
+                    
                     
                     return {
                         url: `blog/user/${userId}`,
                         method: 'put',
 
-                        headers:{
-                            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYyOWFkNWIxOWUzODZjMTY5OWIzNGNkNSIsIm5hbWUiOiJqb25zaGkiLCJlbWFpbCI6ImpvbnNoaUBnbWFpbC5jb20iLCJmb2xsb3dpbmciOltdLCJmb2xsb3dlcnMiOltdLCJyb2xlIjoic3Vic2NyaWJlciIsImNyZWF0ZWQiOiIyMDIyLTA2LTA0VDAzOjQ2OjU3LjIyMloiLCJfX3YiOjAsImFib3V0IjoiSSBsaWtlIGNvZGluZyIsInVwZGF0ZWQiOiIyMDIyLTA2LTA5VDAxOjI3OjEzLjA0MVoifSwiaWF0IjoxNjU2OTc2NjQ3fQ.zxu90zEWdmjjfN5TJhz45bv-v0Q5eJVNaHo3AyRGgpQ"
-                        },
-
                         body: user
                     }
-                }
-            })
+                },
+                invalidatesTags:['user']
+            }),
 
+            isAuth: build.mutation({
+                query({token}){
+                    
+                    return {
+                        url:'blog/auth',
+                        method:'post',
+                        body:{token}
+                    }
+                }
+                
+            }),
+            getuserById: build.query({ //public search
+                query(userid){
+                    return `blog/user/public/${userid}`;
+                },
+                keepUnusedDataFor:60,
+                providesTags:['user']
+            }),
+            getPostsByUser: build.query({ //public search
+                query(userid){
+                    return `blog/posts/by/public/${userid}`
+                },
+                keepUnusedDataFor:60,
+                providesTags:['posts']
+            }),
+            
+            addFollow: build.mutation({
+                query(followId){
+                    return {
+                        url: `blog/user/add/follow`,
+                        method: 'put',
+
+                        body: followId
+                    }
+                },
+                
+                invalidatesTags:['user']
+            }),
+            removeFollow: build.mutation({
+                query(unfollowId){
+                    return {
+                        url: `blog/user/remove/follow`,
+                        method: 'put',
+
+                        body: unfollowId
+                    }
+                },
+                invalidatesTags:['user']
+            }),
+            deletePost: build.mutation({
+                query({postId}){
+                    
+                    return{
+                        url:`blog/post/${postId}`,
+                        method:'delete'
+                    }
+                },
+                invalidatesTags:['posts']
+            }),
+            createPost: build.mutation({
+                query({userId,post}){
+                    return{
+                        url: `blog/post/new/${userId}`,
+                        method:'post',
+                        body:post
+                    }
+                },
+                invalidatesTags:['posts']
+            })
 
 
         }
@@ -87,7 +150,15 @@ const userApi = createApi({
 export const {
     useLoginMutation,
     useSignupMutation,
-    useUpdateUserMutation
+    useUpdateUserMutation,
+    useIsAuthMutation,
+    useGetuserByIdQuery,
+    useGetPostsByUserQuery,
+    useAddFollowMutation,
+    useRemoveFollowMutation,
+    useDeletePostMutation,
+    useCreatePostMutation,
+    
 } = userApi;
 
 export default userApi;

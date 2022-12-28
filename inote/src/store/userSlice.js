@@ -1,13 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit"
-import cookie from 'react-cookies'
-
 const token = localStorage.getItem('token');
-const currUser = localStorage.getItem('currUser');
+const currUser = JSON.parse(localStorage.getItem('currUser'));
 const expirationTime =localStorage.getItem('expirationTime')
 const userSlice = createSlice(
     {
         name:'userInfo',
-        initialState:()=>{
+        initialState: ()=>{
             if(!token){
                 return{
                     isLogin:false,
@@ -27,15 +25,19 @@ const userSlice = createSlice(
         },
         reducers:{
             login(state,action){
+                // console.log(action.payload.user);
                 state.currUser = action.payload.user;
                 state.token = action.payload.token;
                 state.isLogin = true;
-                state.expirationTime = action.payload.exp;
-
-
-                localStorage.setItem('currUser',state.currUser);
-                localStorage.setItem('token',state.token)
-                localStorage.setItem('expirationTime', state.expirationTime)
+                
+                console.log(action.payload.exp)
+                localStorage.setItem('currUser',JSON.stringify(action.payload.user));
+                localStorage.setItem('token',action.payload.token)
+                if(action.payload.exp){
+                    state.expirationTime = action.payload.exp;
+                    localStorage.setItem('expirationTime', action.payload.exp)
+                }
+                
                 console.log('login successfully')
                 
             },
@@ -52,21 +54,16 @@ const userSlice = createSlice(
 
                 console.log('logout successfully')
             },
+            
             setUser(state,action){
-               state.currUser = action.payload;
+               state.currUser = action.payload.user;
+               localStorage.setItem('currUser',JSON.stringify(action.payload.user));
                console.log("set user") 
             },
-            signOutUser(state,action){
-                state.currUser = null;
-                state.isLogin = false;
-                console.log('Signout successfully')
-            },
-            setToken(state,action){
-                state.token =action.payload;
-                state.isLogin = true;
-            }
+            
+            
         }
     }
 )
 export default userSlice;
-export const {setUser,signOutUser,setToken,login,logout} = userSlice.actions;
+export const {setUser,login,logout} = userSlice.actions;

@@ -28,9 +28,12 @@ export default function Navbar() {
 
   const handleSignout = () => {
     dispatch(logout());
-    setNav(!imgNav);
+    // setNav(!imgNav);
     navigate("/home", { replace: true });
   };
+
+  // useEffect(() => {
+  // });
 
   return (
     <div className="w-screen h-[90px] z-10 bg-zinc-900 fixed  drop-shadow-lg">
@@ -39,7 +42,7 @@ export default function Navbar() {
           <h1 className="text-3xl text-white font-bold mr-4 ml-10 sm:text-4xl">
             INOTE.
           </h1>
-          <ul className="hidden md:flex text-zinc-400">
+          <ul className="hidden md:flex list-none text-zinc-400">
             <li>
               <NavLink to={"/home"}>Home</NavLink>
             </li>
@@ -58,23 +61,21 @@ export default function Navbar() {
             Sign In
           </button>
         </div>
+        {currentUser && (
+          <div
+            className={"mr-4 md:mr-12 py-3  hover:cursor-pointer"}
+            onMouseEnter={handleimgMenuOpen}
+            onClick={handleimgMenuSwitch}
+          >
+            <img
+              id="nihao"
+              className=" object-cover w-16 h-16 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+              src={currentUser.photo ? currentUser.photo.photoURL : defaultImg}
+              alt="Bordered avatar"
+            />
+          </div>
+        )}
 
-        <div
-          className={
-            currentUser
-              ? "mr-4 md:mr-12 py-3  hover:cursor-pointer"
-              : "hidden"
-          }
-          onMouseEnter={handleimgMenuOpen}
-          onClick={handleimgMenuSwitch}
-        >
-          <img
-            id="nihao"
-            className=" object-cover w-16 h-16 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-            src={defaultImg}
-            alt="Bordered avatar"
-          />
-        </div>
         {!currentUser && (
           <div className="md:hidden" onClick={handleClick}>
             {!nav ? (
@@ -86,38 +87,41 @@ export default function Navbar() {
         )}
       </div>
       {/* image menu */}
-
-      <ul
-        onMouseLeave={handleimgMenuClose}
-        className={
-          !imgNav
-            ? "hidden"
-            : "absolute bg-zinc-600   right-12  w-[300px] px-8 "
-        }
-      >
-        <li className="border-b-2 border-zinc-300 w-full">
-          <NavLink to={"/home"}>Home</NavLink>
-        </li>
-        <li className="border-b-2 border-zinc-300   w-full">
-          <NavLink to={"/usercenter/1"}>My Blogs</NavLink>
-        </li>
-        <div className="flex flex-col my-4">
-          <NavLink onClick={handleSignout} to={"/home"}>
-            <button className="px-8 py-3 w-full">logout</button>
-          </NavLink>
-        </div>
-      </ul>
+      {imgNav&&currentUser && (
+        <ul
+          onPointerLeave={handleimgMenuClose}
+          className={
+            "absolute bg-zinc-600 list-none  right-12  w-[300px] px-8 "
+          }
+        >
+          <li className="p-4 border-b-2 border-zinc-300 w-full">
+            <NavLink to={"/home"}>Home</NavLink>
+          </li>
+          <li className=" p-4 border-b-2 border-zinc-300   w-full">
+            <NavLink to={`/usercenter/${currentUser._id}`}>My Blogs</NavLink>
+          </li>
+          <div className="flex flex-col my-4">
+            <NavLink onClick={handleSignout} to={"/home"}>
+              <button className="px-8 py-3 w-full">logout</button>
+            </NavLink>
+          </div>
+        </ul>
+      )}
 
       {/* small screen menu */}
 
-      <ul className={!nav ? "hidden" : "absolute bg-zinc-200   w-full px-8"}>
-        <li className="border-b-2 border-zinc-300 w-full">
-          <NavLink onClick={handleClick} to={"/home"}>Home</NavLink>
+      <ul className={!nav ? "hidden" : "absolute bg-zinc-200 list-none   w-full px-8"}>
+        <li className=" p-4 border-b-2 border-zinc-300 w-full">
+          <NavLink onClick={handleClick} to={"/home"}>
+            Home
+          </NavLink>
         </li>
 
-        <div className="flex flex-col my-4">
+        <div className=" p-4 flex flex-col my-4">
           <button className="px-8 py-3">
-            <NavLink onClick={handleClick} to={"/auth/signin"}>Login</NavLink>
+            <NavLink onClick={handleClick} to={"/auth/signin"}>
+              Login
+            </NavLink>
           </button>
         </div>
       </ul>

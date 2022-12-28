@@ -6,7 +6,7 @@ import userApi from "./userApi";
 import userSlice from "./userSlice";
 
 
-//create reducer's slice
+
 
 
 
@@ -15,7 +15,8 @@ const store = configureStore({
         user: userSlice.reducer,
         [userApi.reducerPath]:userApi.reducer
     },
-    middleware:(getDefaultMiddleware)=>{return getDefaultMiddleware().concat(userApi.middleware)}
+    middleware:(getDefaultMiddleware)=>{return getDefaultMiddleware({immutableCheck: false,
+        serializableCheck: false,}).concat(userApi.middleware)}
 })
 
 setupListeners(store.dispatch);

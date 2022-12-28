@@ -11,11 +11,12 @@ export default function Signin() {
 
   const location = useLocation()
   const from = location.state?.preLocation?.pathname || '/home';
-  console.log(from);
+  
 
 
   const handleSignin = (e) => {
     e.preventDefault();
+    console.log(from);
     const user = { email: e.target[0].value, password: e.target[1].value };
     if (user.email&&user.password) {
       signin({ email: user.email, password: user.password }).then(
@@ -29,11 +30,10 @@ export default function Signin() {
             if(result.error){
               console.log(result.error)
             }
-        },
-        (error) => {
-          console.log(error);
         }
-      );
+      ).catch(err=>{
+        console.log(err)
+      });
     }
   };
 

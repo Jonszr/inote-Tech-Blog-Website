@@ -7,7 +7,7 @@ export default function Home() {
     <>
         <Hero/>
         <div className='flex justify-center mx-[10%] py-32'>
-          <PostLists/>
+          {/* <PostLists/> */}
         </div>
         
         

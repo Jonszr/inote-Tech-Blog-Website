@@ -11,6 +11,8 @@ import BlogContent from "../components/MyblogPage/BlogContent";
 import BlogEditor from "../components/MyblogPage/BlogEditor";
 import PublicBlog from "../views/PublicBlog";
 import NeedLogin from "../components/NeedLogin";
+import CreatePost from "../components/MyblogPage/CreatePost";
+import NeedAuth from "../components/NeedAuth";
 
 export default [
     //public routes
@@ -36,7 +38,7 @@ export default [
             },
             {
                 path:'editprofile',
-                element:<EditPorfile/>
+                element:<NeedAuth><EditPorfile/></NeedAuth>
             },
             {
                 path:'blogdetail/:blogid',
@@ -44,7 +46,7 @@ export default [
             },
             {
                 path:'blogeditor',
-                element:<BlogEditor/>
+                element:<NeedAuth><CreatePost/></NeedAuth>
             },
             
         ]
