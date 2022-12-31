@@ -4,6 +4,7 @@ const expressJwt = require('express-jwt');
 const User = require('../models/user');
 const { sendEmail } = require('../tools/mailService');
 const fs = require('fs');
+const { CLIENT_RENEG_LIMIT } = require('tls');
 
 
 
@@ -53,12 +54,13 @@ exports.signin = (req, res) => {
         user.__v = undefined;
         user.photo.data = undefined;
         console.log(user);
+        
         //generate a token with user id and secret
-        jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, data) => {
+        jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: '24h' }, (err, data) => {
             if (err) {
                 return res.status(404).json(err)
             }
-            return res.json({ token: data, user, exp: Date.now() + 1000 * 60 * 60 * 24 })
+            return res.json({ token: data, user, exp: Date.now()+1000*60*60*10})
         });
 
     })
@@ -91,6 +93,7 @@ exports.isAuth = (req, res) => {
                 message: 'token not found'
             })
         }
+        
         jwt.verify(token, process.env.JWT_SECRET, (err, data) => {
             if (err) return res.status(403).json({ err })
             console.log(data)
